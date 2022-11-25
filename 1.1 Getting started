@@ -1,0 +1,9 @@
+Some theory
+
+A database is... 
+  * ...a collection of data
+  * ...a method for accessing and manipulating data
+  * ...a structured set of computerized data with an accessible interface
+  
+A DBMS (Database Management System) is an interface for the database and lets us (or our application) access the database.
+

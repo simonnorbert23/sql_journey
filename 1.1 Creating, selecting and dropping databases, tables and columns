@@ -1,0 +1,36 @@
+# some basics
+
+# to list available databases:
+SHOW DATABASES;
+
+# use snake_case or camelCase to create new databases:
+CREATE DATABASE pet_shop;
+
+# to delete a database:
+DROP DATABASE pet_shop;
+
+# to select a database (as if you would double click it):
+USE pet_shop;
+
+# to view the current selection of databases:
+SELECT database();
+
+# to create a new table specify the name, columns and data type expected for each column
+CREATE TABLE dogs(
+name VARCHAR(50),
+breed VARCHAR(50),
+age INT
+);
+
+# to visualize the tables within the currently selected database
+SHOW tables;
+
+# to visualize the columns of the specified table
+SHOW COLUMNS FROM cats;
+DESC cats;
+
+# to delete a table
+DROP TABLE cats;
+
+# commenting in SQL:
+-- You can just type the text following two dashes and a space.

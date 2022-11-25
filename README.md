@@ -21,13 +21,12 @@ Main types of data:
 * INT = an integer or a whole number, max signed value 2147483647
 * VARCHAR = a variable-length string, can specify a max number of characters allowed in a column as VARCHAR(42)
 
-|Username      |Content               |Favorites|
-|VARCHAR(15)   |VARCHAR(140)          |INT      |
-|--------------|----------------------|---------|
-|'coolguy'     |'my first tweet!'     |1        |
-|'guitar_queen'|'I love music :)'     |10       |
-|'lonely_heart'|'still looking 4 love'|0        |
- 
+|Username  VARCHAR(15)|Content VARCHAR(140)  |Favorites INT|
+|---------------------|----------------------|-------------|
+|'coolguy'            |'my first tweet!'     |1            |
+|'guitar_queen'       |'I love music :)'     |10           |
+|'lonely_heart'       |'still looking 4 love'|0            |
+
 
 ## MySQL vs. SQL
 

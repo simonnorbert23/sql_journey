@@ -1,0 +1,111 @@
+# while inserting data into a table specify the table, column names and the values in the same order as column names
+INSERT INTO cats(name, age)
+VALUES('Jetson', 7);
+
+# how do we know it worked?
+SELECT * FROM cats;
+
+# insert multiple rows at once:
+INSERT INTO cats(name, age)
+VALUES ('Meatball', 5),
+('Turkey', 1),
+('Potatoface', 15);
+
+
+# EXERCISE
+CREATE TABLE people(first_name VARCHAR(50),
+last_name VARCHAR(50),
+age INT);
+
+INSERT INTO people(first_name, last_name, age)
+VALUES ('Bob', 'Belcher', 15);
+
+INSERT INTO people(first_name, last_name, age)
+VALUES ('Tina', 'Belcher', 20);
+
+INSERT INTO people(first_name, last_name, age)
+VALUES ('Linda', 'Belcher', 45),
+('Philip', 'Frond', 38),
+('Calvin', 'Fischoeder', 70);
+
+SELECT * FROM people;
+
+DROP TABLE people;
+
+
+# use NOT NULL at creation in order to prevent NULL values in the table:
+CREATE TABLE cats2 (name VARCHAR(100) NOT NULL, 
+age INT NOT NULL);
+
+# the below will not work cause the age field would be empty:
+INSERT INTO cats2 (name) VALUES ('Bilbo');
+
+# the below will work cause the age value is specified:
+INSERT INTO cats2 (name, age) VALUES ('Bilbo', 17);
+
+# best practice is to use single quotes:
+INSERT INTO shops (name)
+VALUES ('Shoe Emporium');
+
+# in case there's an apostroph, we can use \ to escape it:
+INSERT INTO shops (name)
+VALUES ('mario\'s pizza');
+
+# use double quotes when actually quoting. make sure it's opened and closed:
+INSERT INTO shops (name)
+VALUES ('she said "haha"');
+
+# we can set default values to a line, which will default when there is no other value provided:
+CREATE TABLE cats3 (name VARCHAR(100) DEFAULT 'unnamed',
+age INT DEFAULT 99);
+
+# the default name will be used below, which is 'unnamed' as we provided previously:
+INSERT INTO cats3 (age) 
+VALUES (2);
+
+# it can work in tandem with NOT NULL:
+CREATE TABLE cats4 (name VARCHAR(100) NOT NULL DEFAULT 'Doe',
+age INT NOT NULL DEFAULT '99');
+
+# the below insert will fail, cause previously we specified that NULL values are not accepted:
+INSERT INTO cats4(name, age)
+VALUES (NULL, NULL);
+
+# usually a table has a primary key (unique identifier) column. We can specify one as such:
+CREATE TABLE unique_cats (
+cat_id INT NOT NULL PRIMARY KEY,
+name VARCHAR(100),
+age INT
+);
+
+# or:
+
+CREATE TABLE unique_cats2 (
+	cat_id INT,
+    name VARCHAR(100) NOT NULL,
+    age INT NOT NULL,
+    PRIMARY KEY (cat_id)
+);
+
+# primary key will never be null so it's redundant to specify as NOT NULL
+
+# it's common to make primary keys auto-increment:
+CREATE TABLE unique_cats4 (
+cat_id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(100),
+age INT
+);
+
+# EXERCISE to review the above topics:
+
+CREATE TABLE employees(
+id INT AUTO_INCREMENT PRIMARY KEY,
+last_name VARCHAR(100) NOT NULL,
+first_name VARCHAR(100) NOT NULL,
+middle_name VARCHAR(100),
+age INT NOT NULL,
+current_status VARCHAR(100) NOT NULL DEFAULT 'employed'
+);
+
+
+source: https://www.udemy.com/course/the-ultimate-mysql-bootcamp-go-from-sql-beginner-to-expert/

@@ -27,3 +27,6 @@ DELETE FROM cats WHERE name = 'Egg';
 
 # without the WHERE clause we would delete all the data from teh table. The table would be still there, but it would be empty:
 DELETE FROM cats;
+
+
+source: https://www.udemy.com/course/the-ultimate-mysql-bootcamp-go-from-sql-beginner-to-expert/

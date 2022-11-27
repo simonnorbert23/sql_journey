@@ -1,0 +1,29 @@
+# when we want to retrieve all of the columns, use *:
+SELECT * FROM cats;
+
+# when we want to retrieve a specific column, specify it instead of the *:
+SELECT name FROM cats;
+
+# when we want to retrieve specific columns, list them and separate them with a comma:
+SELECT name, breed FROM cats;
+
+# we can use the WHERE clause to narrow down the selection. We can filter for numeric value and 
+#strings (it's not case sensitive - unless enforced - but the order of characters needs to match the one in the table):
+SELECT name, age FROM cats WHERE age > 4;
+SELECT * FROM cats WHERE breed = 'Tabby';
+
+# if we want to have a column renamed in teh current output, we can use the AS keyword to assign an alias:
+SELECT cat_id AS id, name FROM cats;
+SELECT name AS kittyName FROM cats;
+
+# when we want to change a value, we use UPDATE with SET to specify the new value:
+UPDATE employees SET last_name = 'Roosterbeard';
+
+#we can update a filtered set of data using the WHERE clause:
+UPDATE cats SET age = 14 WHERE name = 'Misty';
+
+# we can use DELETE with the WHERE clause to delete a targeted portion of a table:
+DELETE FROM cats WHERE name = 'Egg';
+
+# without the WHERE clause we would delete all the data from teh table. The table would be still there, but it would be empty:
+DELETE FROM cats;

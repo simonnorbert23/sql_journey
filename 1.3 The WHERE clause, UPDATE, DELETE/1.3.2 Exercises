@@ -40,3 +40,6 @@ DELETE FROM cats WHERE age = cat_id;
 
 # delete all cats
 DELETE FROM cats;
+
+
+source: https://www.udemy.com/course/the-ultimate-mysql-bootcamp-go-from-sql-beginner-to-expert/

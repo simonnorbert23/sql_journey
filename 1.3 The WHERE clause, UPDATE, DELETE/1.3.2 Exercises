@@ -1,0 +1,42 @@
+# EXERCISE - WHERE clause
+
+
+# print the cat_id columns for all cats
+SELECT cat_id FROM cats;
+
+# print the name and breed columns for all cats
+SELECT name, breed FROM cats;
+
+# print the name and age columns for the cats having Tabby breed
+SELECT name, age FROM cats WHERE breed = 'Tabby';
+
+# print the cat_id and the age for the cats where the cat_id is the same as the age
+SELECT cat_id, age FROM cats WHERE cat_id = age;
+
+
+#EXERCISE - UPDATE
+
+
+# change Jackson's name to just Jack
+UPDATE cats SET name = 'Jack' WHERE name = 'Jackson';
+
+# change Ringo's breed to 'British Shorthair'
+UPDATE cats set breed = 'British Shorthair' WHERE name = 'Ringo';
+
+UPDATE cats SET breed = 'Maine Coon' WHERE breed = 'Main Coon';
+
+# update both Maine Coons' ages to be 12
+UPDATE cats SET age = 12 WHERE breed = 'Maine Coon';
+
+
+# EXERCISE - DELETE
+
+
+# delete all cats whose age is 4
+DELETE FROM cats WHERE age = 4;
+
+# delete all cats whose age is the same as their cat-id
+DELETE FROM cats WHERE age = cat_id;
+
+# delete all cats
+DELETE FROM cats;

@@ -1,0 +1,36 @@
+## we can reverse a string with REVERSE
+SELECT REVERSE('chicken nuggets');
+SELECT REVERSE(author_fname) FROM books;
+SELECT CONCAT(author_fname, REVERSE(author_fname)) FROM books;
+
+## to find out the number of characters of the string we can use CHAR_LENGTH
+## not to be confused with LENGTH, which restore the string length in bytes
+SELECT CHAR_LENGTH(title) AS length, title FROM books;
+
+## to change teh casing of the string we can use UPPER and LOWER
+## UCASE and LCASE are their synonims
+SELECT UPPER('hello');
+SELECT LOWER('HELLO');
+SELECT UPPER(title) FROM books;
+SELECT CONCAT('I LOVE ', UPPER(title), '!!!') FROM books;
+
+## other interesting string functions are:
+##	INSERT add substring to existing strings. 0 marks the characters to be replaced
+SELECT INSERT('Hello Bobby', 6, 0, ' There');
+SELECT INSERT('Hello Bobby', 6, 6, ' There');
+
+##	LEFT and RIGHT are functions that are retrieving the lefternmost and rightmost character
+SELECT LEFT(title, 5) FROM books;
+SELECT RIGHT(author_lname, 3) FROM books;
+
+##	we can repeat a string
+SELECT REPEAT('ha', 5);
+
+##	we can trim off leading and trailing spaces
+SELECT TRIM('   boston   ');
+SELECT 
+    TRIM(LEADING '.' FROM '...san antonio...'),
+    TRIM(TRAILING '.' FROM '...san antonio...');
+    
+    
+    source: https://www.udemy.com/course/the-ultimate-mysql-bootcamp-go-from-sql-beginner-to-expert/learn

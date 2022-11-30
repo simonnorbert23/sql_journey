@@ -1,0 +1,38 @@
+## EXERCISE
+## Reveserse and uppercase the following sentence in a single query:
+## Why does my cat look at me with such hatred?
+SELECT UPPER(REVERSE('Why does my cat look at me with such hatred?'));
+
+## In the title column of the books table, replace spaces with '->'
+SELECT REPLACE(title, ' ', '->') AS title FROM books;
+
+## print the last names of the authours in the books table in 2 columns:
+## in the forwards column the actual last names
+## in the backwards column the last names spelled backwards
+SELECT 
+    author_lname AS forwards, REVERSE(author_lname) AS backwards
+FROM
+    books;
+
+## concatenate the full names in upeprcase
+SELECT UPPER(CONCAT(author_fname, ' ', author_lname)) AS 'full name in caps' FROM books;
+
+## in a column name blurb combine the title and the release year of each book
+SELECT CONCAT(title, ' was released in ', released_year) AS blurb FROM books;
+
+## print the titles and charcter lengths of title in appropriately named columns
+SELECT title, CHAR_LENGTH(title) AS 'character count' FROM books;
+
+## create 3 columns:
+## short title: first 10 letters of the titles followed by 3 dots
+## author: full name in a 'Gaiman, Neil' format
+## quantity: number of quantity followed by 'in stock'
+SELECT 
+    CONCAT(LEFT(title, 10), '...') AS 'short title',
+    CONCAT(author_lname, ', ', author_fname) AS author,
+    CONCAT(stock_quantity, ' in stock') AS quantity
+FROM
+    books;
+    
+    
+    source: https://www.udemy.com/course/the-ultimate-mysql-bootcamp-go-from-sql-beginner-to-expert/learn

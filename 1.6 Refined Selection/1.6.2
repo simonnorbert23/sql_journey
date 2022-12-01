@@ -1,0 +1,32 @@
+## EXERCISE
+## write a query which returns the 3 titles that contain the word 'stories' sorted alphabetically backwards
+SELECT title FROM books WHERE title LIKE '%stories%' ORDER BY title DESC;
+
+## print out the title and pages of the longest book by page count
+SELECT title, pages FROM books ORDER BY pages DESC LIMIT 1;
+
+## print a summary containing the title and year for the 3 most recent books
+SELECT CONCAT(title, ' - ', released_year) AS summary FROM books ORDER BY released_year DESC LIMIT 3;
+
+## find all books with an author_lname that contains a space character
+SELECT title, author_lname FROM books WHERE author_lname LIKE '% %';
+
+## find the three books that have the lowest stock quantity
+SELECT title, released_year, stock_quantity FROM books ORDER BY stock_quantity ASC LIMIT 4;
+
+## print title and author_lname, sorted first by author_lname and then by title
+SELECT title, author_lname FROM books ORDER BY author_lname, title;
+
+## replicate the example table by a query
+SELECT 
+    CONCAT('MY FAVOURITE AUTHOR IS ',
+            UPPER(author_fname),
+            ' ',
+            UPPER(author_lname),
+            '!') AS yell
+FROM
+    books
+ORDER BY author_lname;
+
+
+source: https://www.udemy.com/course/the-ultimate-mysql-bootcamp-go-from-sql-beginner-to-expert/learn

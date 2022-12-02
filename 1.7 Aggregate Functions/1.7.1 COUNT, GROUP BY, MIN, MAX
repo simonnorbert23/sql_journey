@@ -1,0 +1,38 @@
+## counting items - star means that rows will be counted
+SELECT COUNT(*) FROM books;
+
+## we can count all the items in a column - it's not counting unique values and it counts NULL value
+SELECT COUNT(author_fname) FROM books;
+
+## we can look for unique values
+SELECT COUNT(DISTINCT author_fname) FROM books;
+SELECT COUNT(DISTINCT released_year) FROM books;
+SELECT COUNT(DISTINCT author_lname) FROM books;
+
+## how many title contain the word 'the'
+SELECT COUNT(*) FROM books WHERE title LIKE '%the%';
+
+## GROUP BY aggregates or summarizes rows into single rows
+SELECT author_lname FROM books;
+SELECT author_lname FROM books GROUP BY author_lname;
+
+## count how many each author has written
+SELECT author_lname, COUNT(*) FROM books GROUP BY author_lname;
+SELECT author_lname, COUNT(*) AS books_written FROM books GROUP BY author_lname ORDER BY books_written DESC;
+
+## let's find out how many books have been released each year
+SELECT released_year, COUNT(*) AS book_count FROM books GROUP BY released_year ORDER BY book_count DESC;
+
+## the below won't work cause it can't select unique values when it's focused on groups
+SELECT * FROM books GROUP BY author_lname; 
+
+## but we can focus on the column based on which the grouping is done (even of it doesn't make much sense in this form)
+SELECT author_lname FROM books GROUP BY author_lname;
+
+## looking for minimum and maximum values
+SELECT MIN(released_year) FROM books;
+SELECT MAX(pages) FROM books;
+SELECT MIN(author_lname), MAX(author_lname) FROM books;
+
+
+source: https://www.udemy.com/course/the-ultimate-mysql-bootcamp-go-from-sql-beginner-to-expert/learn

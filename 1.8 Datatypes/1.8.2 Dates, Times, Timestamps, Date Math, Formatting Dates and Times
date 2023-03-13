@@ -1,0 +1,152 @@
+-- Date: stores a date as YYYY-MM-DD
+-- Time: more flexible - can be a certain time, an amount of time or an interval of time HH:MM:SS
+-- DateTime: YYYY-MM-DD HH:MM:SS
+
+CREATE TABLE people (
+name VARCHAR(100),
+birthdate DATE,
+birthtime TIME,
+birthdt DATETIME);
+
+DESC people;
+
+INSERT INTO people (name, birthdate, birthtime, birthdt)
+VALUES('Elton', '2000-12-24', '11:00:00', '2000-12-24 11:00:00');
+
+INSERT INTO people (name, birthdate, birthtime, birthdt)
+VALUES('Lulu', '1985-04-11', '9:11:04', '1985-04-11 9:11:04');
+
+INSERT INTO people (name, birthdate, birthtime, birthdt)
+VALUES('Juan', '2020-08-15', '23:59:00', '2020-08-15 23:59:00');
+
+SELECT * FROM people;
+
+-- add an item witht the current date/time/datetime
+
+SELECT CURTIME();
+SELECT CURDATE();
+SELECT NOW();
+
+INSERT INTO people (name, birthdate, birthtime, birthdt)
+VALUES ('Hazel', CURDATE(), CURTIME(), NOW());
+
+SELECT * FROM people;
+
+SELECT birthdate FROM people;
+
+-- we can pass a column as argument for date queries
+
+SELECT birthdate, DAY(birthdate) FROM people;
+SELECT birthdate, DAY(birthdate), DAYOFWEEK(birthdate) FROM people;
+SELECT birthdate, DAY(birthdate), DAYOFWEEK(birthdate), DAYOFYEAR(birthdate) FROM people;
+
+-- we can get the name of month with MONTHNAME()
+
+SELECT birthdate, MONTHNAME(birthdate) FROM people;
+
+-- we can't pass a time argument for these  queries (there is no date inormation in it)
+
+SELECT birthdate, MONTHNAME(birthtime) FROM people;
+
+-- but we can use a datetime argument
+
+SELECT birthdate, birthdt, DAYNAME(birthdt) FROM people;
+
+-- we've got a set of similar functions for time
+
+SELECT name, birthtime, HOUR(birthtime) FROM people;
+SELECT name, birthtime, MINUTE(birthtime) FROM people;
+SELECT name, birthtime, SECOND(birthtime) FROM people;
+
+-- we can extract the date or time from datetime
+
+SELECT birthdt, DATE(birthdt), TIME(birthdt) FROM people;
+
+-- 'April 11 1985'
+SELECT CONCAT(MONTHNAME(birthdate), ' ', DAY(birthdate), ' ', YEAR(birthdate)) FROM people;
+
+-- there is a better way for the above
+-- %b gives us the abbreviated month name
+-- %a gives us the abbreviated weekday name
+
+SELECT birthdate, DATE_FORMAT(birthdate, '%b') FROM people;
+
+-- we can combine multiple specifiers
+
+SELECT birthdate, DATE_FORMAT(birthdate, '%b %a') FROM people;
+SELECT birthdate, DATE_FORMAT(birthdate, '%b %a %D') FROM people;
+
+SELECT birthdt, DATE_FORMAT(birthdt, '%H:%i') FROM people;
+
+-- 12 hour TIME
+
+SELECT birthdt, DATE_FORMAT(birthdt, '%r') FROM people;
+SELECT birthdt, DATE_FORMAT(birthdt, 'BORN AT:%r') FROM people;
+
+-- DATEDIFF can give us a substraction of dates and results in the number of days between
+
+SELECT birthdate FROM people;
+SELECT CURDATE() FROM people;
+SELECT DATEDIFF(CURDATE(), birthdate) FROM people;
+SELECT DATEDIFF(CURDATE(), birthdt) FROM people;
+
+-- it won't work with a time column as it doesn't have a date element
+-- DATE_ADD and DATE_SUB gives us more flexibility
+-- we need to pass an interval argument
+
+SELECT DATE_ADD(CURDATE(), INTERVAL 1 YEAR);
+SELECT DATE_ADD(CURDATE(), INTERVAL 11 MONTH);
+SELECT DATE_ADD(CURDATE(), INTERVAL 11 YEAR);
+
+SELECT DATE_SUB(CURDATE(), INTERVAL 1 YEAR);
+SELECT DATE_SUB(CURDATE(), INTERVAL 11 MONTH);
+SELECT DATE_SUB(CURDATE(), INTERVAL 11 YEAR);
+
+SELECT birthdate, DATE_ADD(birthdate, INTERVAL 18 YEAR) FROM people;
+
+-- we can do the same with datetime and time with TIMEDIFF() and ADDTIME() and SUBTIME()
+
+SELECT TIMEDIFF(CURTIME(), '7:00:00');
+
+-- we can do math with simple operators
+
+SELECT NOW() - INTERVAL 18 YEAR;
+
+SELECT name, birthdate FROM people;
+SELECT name, birthdate, birthdate + INTERVAL 21 YEAR FROM people;
+SELECT name, birthdate, YEAR(birthdate + INTERVAL 21 YEAR) AS will_be_21 FROM people;
+
+-- timestamps combine a date and a time - looks just like a datetime
+-- a timestamp takes less memory storage than datetime
+
+SELECT NOW();
+SELECT TIMESTAMP('2023-03-13 11:59:21');
+
+CREATE TABLE captions (
+text VARCHAR(150),
+created_at TIMESTAMP default CURRENT_TIMESTAMP);
+
+INSERT INTO captions (text) VALUES ('just me and the girls chillin');
+INSERT INTO captions (text) VALUES ('beautiful sunset');
+
+SELECT * FROM captions;
+
+-- we can have a separate timestamp only for update time
+
+CREATE TABLE captions2 (
+text VARCHAR(150),
+created_at TIMESTAMP default CURRENT_TIMESTAMP,
+updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
+
+INSERT INTO captions2 (text) VALUES ('i love life');
+
+SELECT * FROM captions2;
+
+UPDATE captions2 SET text='I love live!!!!';
+
+SELECT * FROM captions2;
+
+-- all the above works for date and time as well
+
+
+Source: https://www.udemy.com/course/the-ultimate-mysql-bootcamp-go-from-sql-beginner-to-expert/learn/

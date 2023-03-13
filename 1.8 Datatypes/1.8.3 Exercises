@@ -1,0 +1,52 @@
+-- What's a good use case for char?
+
+-- when we are sure that the input won't exceed a certain length (weekdays, months)
+
+-- Fill in the blanks with the apprpriate data types
+-- price is always < 1,000,000
+
+CREATE TABLE inventory (
+item_name VARCHAR(50),
+price DECIMAL(8, 2),
+quantity INT);
+
+-- What's the difference between DATETIME and TIMESTAMP?
+
+-- DATETIME takes a specified value while TIMESTAMP will equate to current date and time, synonim of NOW()
+-- TIMESTAMP is more memory-efficient but will return a much narrower range
+
+-- Write a statement to print out the current time
+
+SELECT CURTIME();
+
+-- Write a statement to print out the current date (but not time)
+
+SELECT CURDATE();
+
+-- print out the current day of the week as a number
+
+SELECT DAYOFWEEK(CURDATE());
+SELECT DAYNAME(CURDATE());
+
+-- print out the current day and time using this format: mm/dd/yyyy
+
+SELECT DATE_FORMAT(NOW(), '%m/%d/%Y');
+
+-- print out the current day and time using this format: January 2nd at 3:15, April 1st at 10:18
+
+SELECT DATE_FORMAT(NOW(), '%M %D at %H:%i');
+
+-- Create a tweets table that stores the tweet content, a username, time it was created
+
+CREATE TABLE tweets_table (
+tweet_content VARCHAR(140),
+username VARCHAR(30),
+created_at TIMESTAMP default CURRENT_TIMESTAMP);
+
+INSERT INTO tweets_table (tweet_content, username)
+VALUES ('YOLOOOOO', 'tom_hanks90');
+
+SELECT * FROM tweets_table;
+
+
+Source: https://www.udemy.com/course/the-ultimate-mysql-bootcamp-go-from-sql-beginner-to-expert/learn/

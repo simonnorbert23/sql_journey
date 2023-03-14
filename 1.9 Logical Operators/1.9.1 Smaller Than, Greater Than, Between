@@ -1,0 +1,165 @@
+CREATE TABLE books 
+	(
+		book_id INT NOT NULL AUTO_INCREMENT,
+		title VARCHAR(100),
+		author_fname VARCHAR(100),
+		author_lname VARCHAR(100),
+		released_year INT,
+		stock_quantity INT,
+		pages INT,
+		PRIMARY KEY(book_id)
+	);
+
+INSERT INTO books (title, author_fname, author_lname, released_year, stock_quantity, pages)
+VALUES
+('The Namesake', 'Jhumpa', 'Lahiri', 2003, 32, 291),
+('Norse Mythology', 'Neil', 'Gaiman',2016, 43, 304),
+('American Gods', 'Neil', 'Gaiman', 2001, 12, 465),
+('Interpreter of Maladies', 'Jhumpa', 'Lahiri', 1996, 97, 198),
+('A Hologram for the King: A Novel', 'Dave', 'Eggers', 2012, 154, 352),
+('The Circle', 'Dave', 'Eggers', 2013, 26, 504),
+('The Amazing Adventures of Kavalier & Clay', 'Michael', 'Chabon', 2000, 68, 634),
+('Just Kids', 'Patti', 'Smith', 2010, 55, 304),
+('A Heartbreaking Work of Staggering Genius', 'Dave', 'Eggers', 2001, 104, 437),
+('Coraline', 'Neil', 'Gaiman', 2003, 100, 208),
+('What We Talk About When We Talk About Love: Stories', 'Raymond', 'Carver', 1981, 23, 176),
+("Where I'm Calling From: Selected Stories", 'Raymond', 'Carver', 1989, 12, 526),
+('White Noise', 'Don', 'DeLillo', 1985, 49, 320),
+('Cannery Row', 'John', 'Steinbeck', 1945, 95, 181),
+('Oblivion: Stories', 'David', 'Foster Wallace', 2004, 172, 329),
+('Consider the Lobster', 'David', 'Foster Wallace', 2005, 92, 343);
+
+-- != will select NOT EQUAL values to the specified values
+
+SELECT * FROM books WHERE released_year != 2017;
+
+SELECT title, author_lname FROM books WHERE author_lname != 'Gaiman';
+
+-- NOT LIKE space sign - space as a wild character
+
+SELECT title FROM books WHERE title NOT LIKE '% %';
+
+SELECT title, author_fname, author_lname FROM books WHERE author_fname NOT LIKE 'da%';
+
+SELECT title FROM books WHERE title NOT LIKE '%a%';
+
+-- Greater than <
+
+SELECT * FROM books WHERE released_year > 2005;
+
+SELECT * FROM books WHERE pages > 500;
+
+SELECT 80 > 40;
+SELECT 80 > 100;
+
+SELECT title, pages, released_year, pages FROM books WHERE pages > 500;
+
+SELECT 1 > NULL;
+
+-- less than >
+
+SELECT title, released_year FROM books WHERE released_year < 2000;
+
+SELECT title, released_year FROM books WHERE pages < 200;
+
+SELECT title, released_year FROM books WHERE released_year > 2010;
+
+-- Greater than or equal to
+
+SELECT title, released_year FROM books WHERE released_year >= 2010;
+
+-- Less than or equal to
+
+SELECT title, released_year FROM books WHERE released_year <= 1985;
+
+-- Logical AND: &&
+
+SELECT * FROM books WHERE released_year > 2010;
+SELECT * FROM books WHERE author_lname = 'Eggers';
+
+SELECT * FROM books 
+WHERE author_lname = 'Eggers' AND
+released_year > 2010;
+
+SELECT * FROM books
+WHERE author_lname = 'Eggers' AND
+released_year > 2010 AND
+title LIKE '%novel%';
+
+-- for AND to evaluate to TRUE, both sides have to be TRUE
+
+-- LEFT AND RIGHT
+-- released_year > 2010 AND author_lname = 'Eggers'
+
+SELECT title, pages FROM books 
+WHERE CHAR_LENGTH(title) > 30
+AND pages > 500;
+
+-- Logical OR: like AND, but the result is TRUE even if only one side is True
+
+SELECT title, author_lname, released_year FROM books
+WHERE author_lname = 'Eggers' OR
+released_year > 2010;
+
+SELECT 1 < 5 OR 4 = 5;
+SELECT 1 < 0 or 4 = 5;
+
+SELECT title, pages FROM books
+WHERE pages < 200
+OR title LIKE '%stories%';
+
+-- BETWEEN can replace greater than and less than in the same place (or equal to)
+
+SELECT title, released_year FROM books
+WHERE released_year <= 2015
+AND released_year >= 2004;
+
+SELECT title, released_year FROM books
+WHERE released_year BETWEEN 2004 AND 2014;
+
+SELECT title, pages FROM books
+WHERE pages BETWEEN 200 AND 300;
+
+SELECT title, pages FROM books
+WHERE pages NOT BETWEEN 200 AND 300;
+
+-- comparing dates and times
+
+CREATE TABLE people (
+name VARCHAR(100),
+birthdate DATE,
+birthtime TIME,
+birthdt DATETIME);
+
+DESC people;
+
+INSERT INTO people (name, birthdate, birthtime, birthdt)
+VALUES('Elton', '2000-12-24', '11:00:00', '2000-12-24 11:00:00');
+
+INSERT INTO people (name, birthdate, birthtime, birthdt)
+VALUES('Lulu', '1985-04-11', '9:11:04', '1985-04-11 9:11:04');
+
+INSERT INTO people (name, birthdate, birthtime, birthdt)
+VALUES('Juan', '2020-08-15', '23:59:00', '2020-08-15 23:59:00');
+
+INSERT INTO people (name, birthdate, birthtime, birthdt)
+VALUES ('Hazel', CURDATE(), CURTIME(), NOW());
+
+-- we add the date value as a string
+
+SELECT * FROM people WHERE birthdate < '2005-01-01';
+
+-- better extract the year to make it more foulproof
+
+SELECT * FROM people WHERE YEAR(birthdate) < 2005;
+
+-- same with time
+
+SELECT * FROM people WHERE birthtime > '12:00:00';
+
+-- we cna narrow it down to hour:
+
+SELECT * FROM people WHERE HOUR(birthtime) > 12;
+
+
+Source: https://www.udemy.com/course/the-ultimate-mysql-bootcamp-go-from-sql-beginner-to-expert/learn/

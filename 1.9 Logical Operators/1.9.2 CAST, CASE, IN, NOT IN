@@ -1,0 +1,75 @@
+-- CAST helps convert one datatype to another
+
+SELECT CAST('9:00:00' AS TIME);
+
+SELECT * FROM people WHERE birthtime BETWEEN '10:00:00' AND '16:00:00';
+
+SELECT * FROM people WHERE birthtime 
+BETWEEN CAST('10:00:00' AS TIME) AND 
+CAST('16:00:00' AS TIME);
+
+SELECT * FROM people 
+WHERE HOUR(birthtime) BETWEEN 10 AND 16;
+
+-- IN operator: replaces a chain of OR-s
+
+SELECT title, author_lname FROM books
+WHERE author_lname = 'Carver'
+OR author_lname = 'Lahiri'
+OR author_lname = 'Smith';
+
+SELECT title, author_lname FROM books
+WHERE author_lname IN ('Carver', 'Lahiri', 'Smith');
+
+-- NOT IN is reverse of IN
+
+SELECT title, author_lname FROM books
+WHERE author_lname NOT IN ('Carver', 'Smith', 'Lahiri');
+
+-- exclude books publishe din even years using modulo (remainder)
+
+SELECT title, released_year FROM books
+WHERE released_year >= 2000 
+AND released_year % 2 != 0;
+
+-- CASE statements 
+
+SELECT title, released_year, 
+  CASE
+    WHEN released_year >= 2000 THEN ' Modern Lit'
+    ELSE '20th Century Lit'
+  END AS genre
+FROM books;
+
+SELECT title, stock_quantity,
+  CASE
+    WHEN stock_quantity BETWEEN 0 AND 40 THEN '*'
+    WHEN stock_quantity BETWEEN 41 AND 70 THEN '**'
+    WHEN stock_quantity BETWEEN 71 AND 100 THEN '***'
+    WHEN stock_quantity BETWEEN 101 AND 140 THEN '****'
+    ELSE '*****'
+  END AS stock
+FROM books;
+
+-- to make the above a little less clunky
+
+SELECT title, stock_quantity,
+  CASE
+    WHEN stock_quantity <= 40 THEN '*'
+    WHEN stock_quantity <= 70 THEN '**'
+    WHEN stock_quantity <= 100 THEN '***'
+    WHEN stock_quantity <= 140 THEN '****'
+    ELSE '*****'
+  END AS stock
+FROM books;
+
+-- IS NULL 
+
+SELECT * FROM books WHERE author_lname IS NULL;
+
+SELECT * FROM books WHERE author_lname IS NOT NULL;
+
+DELETE FROM books WHERE title IS NULL;
+
+
+SOURCE: https://www.udemy.com/course/the-ultimate-mysql-bootcamp-go-from-sql-beginner-to-expert/learn/

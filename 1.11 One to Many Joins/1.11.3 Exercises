@@ -52,3 +52,6 @@ FROM students
 LEFT JOIN papers ON papers.student_id = students.id
 GROUP BY first_name
 ORDER BY average DESC;
+
+
+Source: https://www.udemy.com/course/the-ultimate-mysql-bootcamp-go-from-sql-beginner-to-expert/learn/

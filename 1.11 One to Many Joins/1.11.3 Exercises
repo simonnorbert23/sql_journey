@@ -1,0 +1,54 @@
+-- create the specified tables
+
+CREATE TABLE students(
+id INT KEY AUTO_INCREMENT,
+first_name VARCHAR(25));
+
+CREATE TABLE papers(
+title VARCHAR(100),
+grade INT,
+student_id INT,
+FOREIGN KEY (student_id) REFERENCES students(id));
+
+INSERT INTO students(first_name) VALUES
+('Caleb'), ('Samantha'), ('Raj'), ('Carlos'), ('Lisa');
+
+INSERT INTO papers (student_id, title, grade) VALUES
+(1, 'My First Book Report', 60),
+(1, 'My Second Book Report', 75),
+(2, 'Russian Lit THrough the Ages', 94),
+(2, 'De Montaigne and the Art of the Essay', 98),
+(4, 'Borges and Magical Realism', 89);
+
+-- join the two tables as specified
+
+SELECT first_name, title, grade FROM papers
+LEFT JOIN students ON papers.student_id = students.id
+ORDER BY grade DESC;
+
+-- join the two tables as specified
+
+SELECT first_name, title, grade FROM papers
+RIGHT JOIN students ON papers.student_id = students.id;
+
+SELECT first_name, IFNULL(title, 'MISSING') AS title, IFNULL(grade, 0) AS grade FROM papers
+RIGHT JOIN students ON papers.student_id = students.id;
+
+-- joint the two tables as specified
+
+SELECT first_name, IFNULL(AVG(grade), 0) AS average FROM students
+LEFT JOIN papers ON papers.student_id = students.id
+GROUP BY first_name
+ORDER BY average DESC;
+
+-- join the two tables and use CASE
+
+SELECT first_name, IFNULL(AVG(grade), 0) AS average,
+CASE 
+  WHEN AVG(grade) >= 75 THEN 'PASSING'
+  ELSE 'FAILING'
+END AS passing_status
+FROM students
+LEFT JOIN papers ON papers.student_id = students.id
+GROUP BY first_name
+ORDER BY average DESC;

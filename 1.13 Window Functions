@@ -1,0 +1,179 @@
+-- window function perform aggregate operations on groups of rows, but they produce a result for each row
+-- we can look at aggregate dnumbers alongside the original numbers
+-- windows  of data = groups of data, eg. by department
+
+-- OVER construct a window. If empty, all records will be included
+
+CREATE TABLE employees (
+    emp_no INT PRIMARY KEY AUTO_INCREMENT,
+    department VARCHAR(20),
+    salary INT
+);
+ 
+INSERT INTO employees (department, salary) VALUES
+('engineering', 80000),
+('engineering', 69000),
+('engineering', 70000),
+('engineering', 103000),
+('engineering', 67000),
+('engineering', 89000),
+('engineering', 91000),
+('sales', 59000),
+('sales', 70000),
+('sales', 159000),
+('sales', 72000),
+('sales', 60000),
+('sales', 61000),
+('sales', 61000),
+('customer service', 38000),
+('customer service', 45000),
+('customer service', 61000),
+('customer service', 40000),
+('customer service', 31000),
+('customer service', 56000),
+('customer service', 55000);
+
+SELECT * FROM employees;
+
+SELECT department, avg(salary) FROM employees
+GROUP BY department;
+
+-- OVER gives back the aggregate value for each row
+
+SELECT avg(salary) OVER() FROM employees;
+
+SELECT emp_no, salary, department, AVG(salary) OVER() FROM employees;
+
+SELECT 
+emp_no, 
+salary, 
+department, 
+MIN(salary) OVER(),
+MAX(salary) OVER(),
+AVG(salary) OVER() 
+FROM employees;
+
+-- PARTITION BY is used with windows when we want to work with multiple windows
+-- we get smaller, multiple windows
+
+SELECT emp_no, department, salary,
+AVG(salary) OVER(PARTITION BY department) AS dept_avg
+FROM employees;
+
+SELECT department, AVG(salary) FROM employees
+GROUP BY department;
+
+SELECT emp_no, 
+department, 
+salary,
+AVG(salary) OVER(PARTITION BY department) AS dept_avg,
+AVG(salary) OVER() AS company_avg
+FROM employees;
+
+SELECT emp_no, department, salary,
+COUNT(*) OVER(PARTITION BY department) AS dept_count
+FROM employees;
+
+SELECT emp_no, department, salary,
+SUM(salary) OVER(PARTITION BY department) AS dept_payroll,
+SUM(salary) OVER(PARTITION BY department) AS total_payroll
+FROM employees;
+
+-- ORDER BY inside of OVEER reordeers rows inside of each window
+
+SELECT emp_no, 
+department, 
+salary,
+SUM(salary) OVER(PARTITION BY department) AS dept_salary_total,
+SUM(salary) OVER(PARTITION BY department ORDER BY salary) AS ROLLING_dept_salary
+FROM employees;
+
+SELECT emp_no, 
+department, 
+salary,
+MIN(salary) OVER(PARTITION BY department ORDER BY salary DESC) AS rolling_min
+FROM employees;
+
+-- RANK is solely window function
+-- returns the rank of a row within its partition
+
+SELECT emp_no, 
+department, 
+salary,
+RANK() OVER(ORDER BY salary DESC) AS overall_salary_rank
+FROM employees;
+
+SELECT emp_no, 
+department, 
+salary,
+RANK() OVER(PARTITION BY department ORDER BY salary DESC) AS dept_salary_rank,
+RANK() OVER(ORDER BY salary DESC) AS overall_salary_rank
+FROM employees
+ORDER BY department;
+
+-- ROW_NUMBER() is as RANK with the difference that it doesn't allow for ties in case of equal values
+
+SELECT emp_no, 
+department, 
+salary,
+ROW_NUMBER() OVER(PARTITION BY department ORDER BY salary DESC) AS dept_row_number,
+RANK() OVER(PARTITION BY department ORDER BY salary DESC) AS dept_salary_rank,
+RANK() OVER(ORDER BY salary DESC) AS overall_salary_rank
+FROM employees
+ORDER BY department;
+
+-- DENSE_RANK when we have same values, it doesn't skip a RANK
+
+SELECT emp_no, 
+department, 
+salary,
+ROW_NUMBER() OVER(PARTITION BY department ORDER BY salary DESC) AS dept_row_number,
+RANK() OVER(PARTITION BY department ORDER BY salary DESC) AS dept_salary_rank,
+RANK() OVER(ORDER BY salary DESC) AS overall_rank,
+DENSE_RANK() OVER(ORDER BY salary DESC) AS overall_dense_rank,
+ROW_NUMBER() OVER(ORDER BY salary DESC) AS overall_num
+FROM employees
+ORDER BY overall_rank;
+
+-- NTILE creates buckets (eg. quarters)
+
+SELECT emp_no, 
+department, 
+salary,
+NTILE(4) OVER(ORDER BY salary DESC) AS salary_quartile,
+NTILE(4) OVER(PARTITION BY department ORDER BY salary DESC) AS dept_salary_quartile
+FROM employees;
+
+-- FIRST_VALUE returns the value of the specified expression from the forst row of the window frame
+
+SELECT emp_no, 
+department, 
+salary,
+FIRST_VALUE(emp_no) OVER(ORDER BY salary DESC) AS highest_paid_overall,
+FIRST_VALUE(emp_no) OVER(PARTITION BY department ORDER BY salary DESC) AS highest_paid_dept
+FROM employees;
+
+-- LEAD and LAG difference between the following/preceding row
+
+SELECT emp_no, 
+department, 
+salary,
+salary - LAG(salary) OVER(ORDER BY salary DESC) AS salary_diff,
+salary - LEAD(salary) OVER(ORDER BY salary DESC) AS salary_diff_lead
+FROM employees;
+
+SELECT emp_no, 
+department, 
+salary,
+salary - LAG(salary) OVER(PARTITION BY department ORDER BY salary DESC) AS dept_salary_diff
+FROM employees;
+
+-- can specify how many rows back
+
+SELECT emp_no, 
+department, 
+salary,
+salary - LAG(salary, 2) OVER(PARTITION BY department ORDER BY salary DESC) AS dept_salary_diff
+FROM employees;
+
+SOURCE: https://www.udemy.com/course/the-ultimate-mysql-bootcamp-go-from-sql-beginner-to-expert/learn/

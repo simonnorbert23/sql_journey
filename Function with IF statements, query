@@ -1,0 +1,17 @@
+--# write your SQL statement here: 
+--# you are given a table 'zerofuel' with columns 'distance_to_pump', 'mpg' and 'fuel_left', 
+--# return a table with all the columns and your result in a column named 'res'.
+
+CREATE OR REPLACE FUNCTION mpg(INT, INT, INT)
+RETURNS BOOLEAN AS $$
+BEGIN 
+  IF $1 / $2 <= $3 THEN
+    RETURN true;
+  ELSE
+    RETURN false;
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT distance_to_pump, mpg, fuel_left, mpg(distance_to_pump, mpg, fuel_left) AS res
+FROM zerofuel;

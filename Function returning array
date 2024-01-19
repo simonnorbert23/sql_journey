@@ -30,6 +30,10 @@ CREATE OR REPLACE FUNCTION countby(firstp1 INT, p2 INT)
     END;
 $$ LANGUAGE plpgsql;
 
+Easier wya to do it:
 
+SELECT x, n, ARRAY(SELECT generate_series(x, x*n, x)) AS res
+FROM counter
+ORDER BY x, n
 
 SOURCE: https://www.codewars.com/kata/5513795bd3fafb56c200049e/train/sql
